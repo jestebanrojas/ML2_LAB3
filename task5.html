@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enviar Pregunta del Artículo</title>
+</head>
+<body>
+  <h2>Enviar Pregunta del Artículo</h2>
+  <form id="questionForm" action="http://localhost:80000/predict" method="post">
+   
+    <label for="question">Ingresa por favor tu pregunta:</label>
+    <input type="text" name="question" id="question" required>
+
+    <br><br>
+
+    
+    <input type="submit" value="Responder">
+  </form>
+
+  <div id="predictionResult"></div>
+
+
+  <script>
+    // Add an event listener to the form submission
+    document.getElementById('questionForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the default form submission
+  
+      // Create a FormData object to collect form data
+      const formData = new FormData(this);
+  
+      // Make an AJAX request to the server
+      fetch('http://localhost:8000/predict', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.text())  // Assuming the server sends a text response
+      .then(result => {
+        // Update the page with the server's response
+        document.getElementById('predictionResult').innerHTML = result;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+  </script>
+</body>
+</html>
